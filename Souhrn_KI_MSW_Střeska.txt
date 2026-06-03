@@ -1,0 +1,31 @@
+Zápočtová práce: Matematický software (MSW)
+Autor: Filip Střeska
+Odkaz na GitHub: https://github.com/FilipStreska/KI-MSW
+
+Shrnutí nejdůležitějších myšlenek
+Tento dokument shrnuje výsledky simulací a interpretaci matematických modelů vytvořených v rámci zápočtové úlohy. Úloha se zaměřila na implementaci kódů v jazyce Python s využitím knihoven scipy a numpy.
+
+Úloha 1: Lineární a nelineární oscilátory
+Pro analýzu dynamických režimů byly vybrány tlumený harmonický oscilátor (lineární), Duffingův oscilátor a Van der Polův oscilátor (nelineární). Výsledky simulace na intervalu t v (0,100) prokázaly následující chování:
+
+- Lineární oscilátor: Při slabém tlumení systém kmitá se snižující se amplitudou, při kritickém se nejrychleji vrací do rovnováhy bez překmitu a při silném tlumení se vrací do rovnováhy velmi pomalu. Změna tlumení o newlineární procent mění chování plynule v rámci jednoho režimu, ale přechod přes kritickou hranici je kvalitativně ostrý. Rezonance u buzeného kmitání vzniká, když se frekvence budící síly blíží vlastní frekvenci systému, čímž dochází k maximalizaci přenosu energie. Problém lze řešit i analyticky pomocí symbolické matematiky (např. knihovna SymPy), kde lze nalézt přesné explicitní řešení diferenciální rovnice.
+
+- Duffingův oscilátor: Pro doporučené parametry (delta=0.2, alpha=-1, beta=1, y=0.3, omega=1.2) v systému dochází k chaotickému chování. Fázová trajektorie vykazuje typický chaotický atraktor, kde trajektorie nepravidelně a nepředvídatelně přeskakuje mezi dvěma potenciálovými studnami. Rozdíl mezi malou a velkou počáteční podmínkou se projevuje zejména v přechodovém ději – malé počáteční podmínky mohou způsobit, že systém zůstane déle uzamčen v jedné ze studní, než se vyvine plný chaos, zatímco velké počáteční podmínky dodají systému dostatek energie pro okamžité překonávání potenciálové bariéry. Pokud zvýšíme buzení y, dochází k sérii bifurkací. Počet i charakter atraktorů se mění – chaos se může zhroutit do stabilního periodického okna (limitního cyklu o velké amplitudě), nebo naopak může dojít ke koexistenci více různých stabilních řešení.
+
+- Van der Polův oscilátor: Při mu=1 má limitní cyklus tvar blízký kružnici (téměř harmonické kmitání). Při silně nelineárním režimu (mu=10) se tvar cyklu deformuje do relaxačních kmitů, kde dochází k rychlým skokům (překlopení) a pomalým fázím (akumulace). Počáteční podmínky ovlivňují pouze trajektorii přiblížení, avšak konečné chování vždy konverguje ke stejnému stabilnímu limitnímu cyklu (atraktoru). V tomto specifickém modelu existuje právě jeden stabilní limitní cyklus (atraktor).
+
+
+Úloha 2: Programová implementace SIR modelu
+Byl implementován deterministický SIR model s konstantní incidencí pro simulaci šíření pěti různých infekčních onemocnění. Cílem bylo analyzovat dynamiku epidemie na populaci 100 000 jedinců.
+
+Nemoc       | Odhad R0 | Vrchol epidemie (den) | Trvání (dny) | Celkem nakažených (%)
+-------------------------------------------------------------------------------------
+Chřipka     | 1.5      | 130                   | 250          | ~58%
+Ebola       | 2.0      | 65                    | 150          | ~80%
+COVID-19    | 2.5      | 45                    | 120          | ~89%
+Malárie     | 5.0      | 20                    | 60           | ~99%
+Spalničky   | 15.0     | 8                     | 30           | ~100%
+
+
+Úloha 3: Vlastní model - Dynamika chlazení procesoru pod zátěží
+Jako vlastní téma byl pomocí soustavy obyčejných diferenciálních rovnic vymodelován tepelný přenos mezi CPU a chladicím systémem notebooku. Model demonstruje nárůst teploty při výpočetní zátěži a efekt termálního throttlingu, kdy systém začne uměle snižovat výkon při dosažení kritické teploty. Tento jev byl popsán Newtonovým zákonem ochlazování s nelineárním členem představujícím dynamický výkon čipu.
